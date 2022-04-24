@@ -13,6 +13,24 @@ class Game():
         ball = png.get_rect()
         return png, ball
 
+    def move_left(self):
+        pass
+
+    def move_right(self):
+        pass
+
+    def move_up(self):
+        print("moving")
+        player = self.player()
+        player[1].move(0, 1)
+
+    def move_down(self):
+        pass
+
+    def __update__(self):
+        game.screen.fill(self.background)
+        game.screen.blit(self.player()[0], self.player()[1])
+
 class Obstacle():
     def __init__(self):
         self.list = []
@@ -22,19 +40,17 @@ class Obstacle():
         img = pygame.image.load(img)
         img = pygame.transform.smoothscale(img, (width, height))
         obstacle = img.get_rect()
-        obstacle.move(x, y)
         self.list.append([img, obstacle])
 
 game = Game()
 obstacles = Obstacle()
 
-obstacles.create_obstacle(100, 100, 30, 30, "ball2.png")
+obstacles.create_obstacle(200, 100, 30, 30, "ball2.png")
 while game.running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: exit()
+        keys = pygame.key.get_pressed()
+        if(keys[pygame.K_w]): game.move_up()
 
-    game.screen.fill(game.background)
-    for i in obstacles.list:
-        game.screen.blit(i[0], i[1])
-    game.screen.blit(game.player()[0], game.player()[1])
+    game.__update__()
     pygame.display.flip()
